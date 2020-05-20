@@ -1,6 +1,7 @@
 from common.functions import *
 from common.gradient import numerical_gradient
 from dataset.mnist import load_mnist
+import matplotlib.pyplot as plt
 
 
 class TwoLayerNet:
@@ -58,7 +59,7 @@ if __name__ == '__main__':
     test_acc_list = []
 
     # 设置超参数
-    iters_num = 10000
+    iters_num = 1000
     train_size = x_train.shape[0]
     batch_size = 100
     learning_rate = 0.1
@@ -68,6 +69,7 @@ if __name__ == '__main__':
     network = TwoLayerNet(784, 50, 10)
 
     for i in range(iters_num):
+        print("Start!")
         # 获取mini-batch
         batch_mask = np.random.choice(train_size, batch_size)
         x_batch = x_train[batch_mask]
@@ -84,6 +86,13 @@ if __name__ == '__main__':
         loss = network.loss(x_batch, t_batch)
         train_loss_list.append(loss)
 
+        train_acc = network.accuracy(x_train, t_train)
+        test_acc = network.accuracy(x_test, t_test)
+        train_acc_list.append(train_acc)
+        test_acc_list.append(test_acc)
+        print("TrainAccuracy:" + str(train_acc) + "TestAccuracy" + str(test_acc))
         if i % iter_per_epoch == 0:
-            train_acc_list.append(network.accuracy(x_train, t_train))
-            test_acc_list.append(network.accuracy(x_test, t_test))
+            pass
+
+    # for i in range(len(train_acc_list)):
+    #     plt.plot(i,train_acc_list)
